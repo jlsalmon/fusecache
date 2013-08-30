@@ -1,0 +1,6 @@
+- page-based caching for only small parts of files
+- persistent cache obviously
+- option to cache only certain directories
+- write-through or write-back?
+- transparently sync local changes on reconnect
+- buffer client writes into big chunks before sending over the network
