@@ -341,13 +341,44 @@ namespace fusecache
       //------------------------------------------------------------------------
       //! Get an extended attribute
       //------------------------------------------------------------------------
+#ifdef __APPLE__
       static void getxattr( fuse_req_t  req,
                             fuse_ino_t  ino,
-                            const char *xattr_name,
+                            const char *name,
+                            size_t      size,
+                            uint32_t    position )
+#else
+      static void getxattr( fuse_req_t  req,
+                            fuse_ino_t  ino,
+                            const char *name,
                             size_t      size )
+#endif
       {
         std::cout << "getxattr()" << std::endl;
-        T::getxattr( req, ino, xattr_name, size );
+        T::getxattr( req, ino, name, size );
+      }
+
+    //--------------------------------------------------------------------------
+    //! Set extended attribute
+    //--------------------------------------------------------------------------
+#ifdef __APPLE__
+      static void setxattr( fuse_req_t  req,
+                            fuse_ino_t  ino,
+                            const char *name,
+                            const char *value,
+                            size_t      size,
+                            int         flags,
+                            uint32_t    position )
+#else
+      static void setxattr( fuse_req_t  req,
+                            fuse_ino_t  ino,
+                            const char *name,
+                            const char *value,
+                            size_t      size,
+                            int         flags )
+#endif
+      {
+        std::cout << "setxattr()" << std::endl;
       }
 
       //------------------------------------------------------------------------
@@ -368,20 +399,6 @@ namespace fusecache
       {
         std::cout << "removexattr()" << std::endl;
         T::removexattr( req, ino, xattr_name );
-      }
-
-      //------------------------------------------------------------------------
-      //! Set extended attribute
-      //------------------------------------------------------------------------
-      static void setxattr( fuse_req_t  req,
-                            fuse_ino_t  ino,
-                            const char *xattr_name,
-                            const char *xattr_value,
-                            size_t      size,
-                            int         flags )
-      {
-        std::cout << "setxattr()" << std::endl;
-        T::setxattr( req, ino, xattr_name, xattr_value, size, flags );
       }
 
       //------------------------------------------------------------------------
